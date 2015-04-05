@@ -1,18 +1,25 @@
 class EnemyArmy extends ArrayList<PVector>{
   public static final int unitWidth=50;
   public static final int unitHeight=50;
-  public float speed=.02;
+  boolean direction;
+  public float speed=.005;
   public EnemyArmy(){
+    direction = true;  // go to right
   }
   public void Move(){
     for(PVector pos : this){
-      if(pos.x>=width-unitWidth)  // go down
-         pos.set(unitWidth,pos.y+unitHeight);
+      if((pos.x>=width-unitWidth && direction) || (pos.x<= unitWidth && !direction))  
+         GoDown();
       else
-          pos.x+=speed; 
+          pos.x+=(direction?speed:-speed); 
     }
   }
-  
+  void GoDown(){
+    for(PVector pos : this)
+      pos.y+=unitHeight;
+    
+    direction=!direction;
+  }
   public void Draw(){
     if(this.size()==0)
       println("you won");
