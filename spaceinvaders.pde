@@ -14,13 +14,13 @@ void setup() {
    size(800,768);
    frameRate(120);
    minim= new Minim(this);
-   explosion= minim.loadFile("sound/explosion.wav");  
-   shootPlayer=minim.loadFile("sound/shoot.wav");
+   explosion= minim.loadFile("data/sound/explosion.wav");  
+   shootPlayer=minim.loadFile("data/sound/shoot.wav");
    enemyArmy = new EnemyArmy();
    enemyArmy.InitializeArmy(10,10);  // y=7 perché sfora il limite 
-   playerImg= loadImage("img/player.jpg");
-   explosionImg=loadImage("img/Explosion.png");
-   enemyImg=loadImage("img/enemy.jpg");
+   playerImg= loadImage("data/img/player.jpg");
+   explosionImg=loadImage("data/img/Explosion.png");
+   enemyImg=loadImage("data/img/enemy.jpg");
    player = new Player(width/2,height-120);
 }
 

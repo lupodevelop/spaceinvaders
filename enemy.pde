@@ -52,7 +52,7 @@ class EnemyArmy extends ArrayList<PVector>{
   }
   public void Destroy(PVector p) {
     this.remove(p);
-    explosion.rewind();
+    explosion.rewind();    
     explosion.play();
     image(explosionImg,p.x,p.y);
     actualSpeed=speed.SetSpeed(Percentual());

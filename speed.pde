@@ -2,7 +2,7 @@ class Speed extends ArrayList<Interval>{
   public float StartSpeed;
   public Speed(float startSpeed){
     StartSpeed=startSpeed;
-    LoadIntervals("intervals.txt");
+    LoadIntervals("data/text/intervals.txt");
   }
   
   public void LoadIntervals(String path){
