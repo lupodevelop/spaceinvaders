@@ -11,7 +11,8 @@ AudioPlayer shootPlayer, explosion;
 Minim minim;
 // does not have image 
 void setup() {
-   size(1360,768);
+   size(800,768);
+   frameRate(120);
    minim= new Minim(this);
    explosion= minim.loadFile("sound/explosion.wav");  
    shootPlayer=minim.loadFile("sound/shoot.wav");
