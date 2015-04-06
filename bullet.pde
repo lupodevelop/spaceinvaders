@@ -1,17 +1,17 @@
 class Bullet{
   public static final int widthB=10;
   public static final int heightB=10;
-  private static final float speed=10;
+  public float speed=10;
   public boolean CanDraw;
+  public boolean Direction;
   public PVector Position;
-  public Bullet(Player p){
-    if(p!=null){
-      Position=new PVector(p.Position.x+25,p.Position.y+19);  // aggiustamenti
-      CanDraw=true;
-    }
-    else{
-      println("something strange in Bullet!");
-    }
+  public Bullet(PVector p, boolean direction){
+     float adjustmentX = direction?23:-23;
+     float adjustmentY = direction?25:-25;
+     Position=new PVector(p.x+adjustmentX,p.y+adjustmentY);  // aggiustamenti
+     speed=(direction?speed:-speed);
+     Direction=direction;
+     CanDraw=true;
   }
   
   public void Draw(){
@@ -19,33 +19,44 @@ class Bullet{
       Move();
       fill(0,255,0);
       ellipse(Position.x,Position.y,widthB,heightB);
-      CanDraw= CanDraw && Position.y>=0;
+      CanDraw= CanDraw && ((Direction && this.Position.y>0) || (!Direction && this.Position.y<height));
     }
     }
   
   void Move(){
-     PVector temp=Collision();
+     PVector temp=null;
+     if(Direction){
+       temp=CollisionWithEnemy();
       if(temp!=null){
         enemyArmy.Destroy(temp);  
         CanDraw=false;
         println("colpito");
       }
-      else
-        this.Position.y-=speed;
+     }
+      else{
+        if(Collision(player.Position,player.pWidth,player.pHeight)&&!Direction){
+          println("giocatore colpito");
+          CanDraw=false;
+        }  
+      }
+     this.Position.y-=speed; 
   }
 
-  public PVector Collision(){
+   public PVector CollisionWithEnemy(){
     PVector temp=new PVector(0,0);
     ArrayList<PVector> PossibleVictim= new ArrayList<PVector>();
     for(PVector p : enemyArmy){
-      if(p.y<=Position.y+heightB/2 && p.y+enemyArmy.unitHeight>=Position.y-heightB/2-speed && p.x<=Position.x+widthB/2 && p.x+enemyArmy.unitWidth>= Position.x - widthB/2)
+      if(Collision(p,enemyArmy.unitWidth,enemyArmy.unitHeight))
         PossibleVictim.add(p);
     }
-    println(enemyArmy.size()-PossibleVictim.size());
     for(PVector p : PossibleVictim){
       temp = (p.y>temp.y?p:temp);
     }
     return temp.x==0 && temp.y==0 ? null : temp;
+  }
+  
+    boolean Collision(PVector p,float pWidth,float pHeight){
+    return p.y<=Position.y+heightB/2 && p.y+pHeight>=Position.y-heightB/2-speed && p.x<=Position.x+widthB/2 && p.x+pWidth>= Position.x - widthB/2;
   }
 }
   
