@@ -5,7 +5,7 @@ int t;
 PImage explosionImg;
 PImage playerImg;
 PImage enemyImg;
-Player p;
+Player player;
 EnemyArmy enemyArmy;
 AudioPlayer shootPlayer, explosion;
 Minim minim;
@@ -20,26 +20,26 @@ void setup() {
    playerImg= loadImage("img/player.jpg");
    explosionImg=loadImage("img/Explosion.png");
    enemyImg=loadImage("img/enemy.jpg");
-   p = new Player(width/2,height-120);
+   player = new Player(width/2,height-120);
 }
 
 void draw() {
   background(0);
-  p.Draw();
+  player.Draw();
   enemyArmy.Draw();
 }
 
 void keyPressed(){
   if(key==CODED){
   if(keyCode==LEFT)
-    p.Move(false);
+    player.Move(false);
   else
     if(keyCode==RIGHT)
-      p.Move(true);
+      player.Move(true);
   }
   if(key==' '){
     if(millis()-t>timeToShoot){
-      p.Shoot();
+      player.Shoot();
       shootPlayer.rewind();
       shootPlayer.play();
       t=millis();
