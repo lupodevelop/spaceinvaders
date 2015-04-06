@@ -21,7 +21,7 @@ class Bullet{
       ellipse(Position.x,Position.y,widthB,heightB);
       CanDraw= CanDraw && ((Direction && this.Position.y>0) || (!Direction && this.Position.y<height));
     }
-    }
+  }
   
   void Move(){
      PVector temp=null;
@@ -43,7 +43,7 @@ class Bullet{
   }
 
    public PVector CollisionWithEnemy(){
-    PVector temp=new PVector(0,0);
+    PVector temp=new PVector(-100,-100);
     ArrayList<PVector> PossibleVictim= new ArrayList<PVector>();
     for(PVector p : enemyArmy){
       if(Collision(p,enemyArmy.unitWidth,enemyArmy.unitHeight))
@@ -52,7 +52,7 @@ class Bullet{
     for(PVector p : PossibleVictim){
       temp = (p.y>temp.y?p:temp);
     }
-    return temp.x==0 && temp.y==0 ? null : temp;
+    return temp.x==-100 && temp.y==-100 ? null : temp;
   }
   
     boolean Collision(PVector p,float pWidth,float pHeight){
