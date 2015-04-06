@@ -1,10 +1,15 @@
 class EnemyArmy extends ArrayList<PVector>{
   public static final int unitWidth=50;
   public static final int unitHeight=50;
+  int startArmyCount;
   boolean direction;
-  public float speed=.005;
+  float actualSpeed;
+  float startSpeed=.005;
+  public Speed speed;
   public EnemyArmy(){
     direction = true;  // go to right
+    actualSpeed=startSpeed;
+    speed=new Speed(startSpeed);
   }
   
   public void Move(){
@@ -12,7 +17,7 @@ class EnemyArmy extends ArrayList<PVector>{
       if((pos.x>=width-unitWidth && direction) || (pos.x<= unitWidth && !direction))  
          GoDown();
       else
-          pos.x+=(direction?speed:-speed); 
+          pos.x+=(direction?actualSpeed:-actualSpeed); 
     }
   }
   void GoDown(){
@@ -43,15 +48,18 @@ class EnemyArmy extends ArrayList<PVector>{
         this.add(new PVector(unitWidth*k,unitHeight*i));
       }
     }
+    startArmyCount=this.size();
   }
   public void Destroy(PVector p) {
     this.remove(p);
     explosion.rewind();
     explosion.play();
     image(explosionImg,p.x,p.y);
-    speed*=(this.size()<15&& this.size()>13?2:1);
-    speed*=(this.size()<5 ?7 :1);
-    println("speed= "+speed);
+    actualSpeed=speed.SetSpeed(Percentual());
+    println("speed= "+actualSpeed);
   } // with graphical animation 
   
+  float Percentual(){
+    return this.size()==1?-1:(this.size()*100)/startArmyCount;  
+  }
 }
