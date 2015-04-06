@@ -11,12 +11,12 @@ AudioPlayer shootPlayer, explosion;
 Minim minim;
 // does not have image 
 void setup() {
+   size(1360,768);
    minim= new Minim(this);
    explosion= minim.loadFile("sound/explosion.wav");  
    shootPlayer=minim.loadFile("sound/shoot.wav");
    enemyArmy = new EnemyArmy();
-   size(1360,768);
-   enemyArmy.InitializeArmy();
+   enemyArmy.InitializeArmy(10,10);  // y=7 perché sfora il limite 
    playerImg= loadImage("img/player.jpg");
    explosionImg=loadImage("img/Explosion.png");
    enemyImg=loadImage("img/enemy.jpg");

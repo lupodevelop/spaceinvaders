@@ -6,6 +6,7 @@ class EnemyArmy extends ArrayList<PVector>{
   public EnemyArmy(){
     direction = true;  // go to right
   }
+  
   public void Move(){
     for(PVector pos : this){
       if((pos.x>=width-unitWidth && direction) || (pos.x<= unitWidth && !direction))  
@@ -31,9 +32,12 @@ class EnemyArmy extends ArrayList<PVector>{
       image(enemyImg,pos.x,pos.y,unitWidth,unitHeight);
     }
   }
-  void InitializeArmy(){  // quante per riga e colonna
-    int x=width/unitWidth-5;
-    int y=(height/unitHeight)/2;
+  void InitializeArmy(int x,int y){  // quante per riga e colonna
+    int maxX=width/unitWidth;
+    int maxY=(height/unitHeight)/2;
+    println(maxX + " " + maxY);
+    x=maxX>x?x:maxX;
+    y=maxY>y?y:maxY;
     for(int i = 0; i< y;i++){
       for(int k=0;k<x;k++){
         this.add(new PVector(unitWidth*k,unitHeight*i));
@@ -46,7 +50,8 @@ class EnemyArmy extends ArrayList<PVector>{
     explosion.play();
     image(explosionImg,p.x,p.y);
     speed*=(this.size()<15&& this.size()>13?2:1);
-    speed*=(this.size()<5 && this.size()>2?5 :1);
-      
+    speed*=(this.size()<5 ?7 :1);
+    println("speed= "+speed);
   } // with graphical animation 
+  
 }
