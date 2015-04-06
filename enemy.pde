@@ -42,6 +42,7 @@ class EnemyArmy extends ArrayList<PVector>{
   }
   public void Destroy(PVector p) {
     this.remove(p);
+    explosion.rewind();
     explosion.play();
     image(explosionImg,p.x,p.y);
     speed*=(this.size()<15&& this.size()>13?2:1);
