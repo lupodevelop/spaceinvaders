@@ -17,9 +17,7 @@ class Bullet{
   public boolean CanDraw;
   public boolean Direction;
   public PVector Position;
-  public Bullet(PVector p, boolean direction){
-     float adjustmentX = direction?23:-23;
-     float adjustmentY = direction?25:-25;
+  public Bullet(PVector p,float adjustmentX,float adjustmentY, boolean direction){
      Position=new PVector(p.x+adjustmentX,p.y+adjustmentY);  // aggiustamenti
      speed=(direction?speed:-speed);
      Direction=direction;
@@ -55,7 +53,7 @@ class Bullet{
   }
 
    public Enemy CollisionWithEnemy(){
-    Enemy temp=new Enemy(new PVector(-100,-100),false);
+    Enemy temp=new Enemy(new PVector(-100,-100),false,0,0);
     EnemyArmy PossibleVictim= new EnemyArmy();
     for(Enemy e : enemyArmy){
       if(Collision(e.Position,enemyArmy.unitWidth,enemyArmy.unitHeight))

@@ -7,7 +7,7 @@ class Player{
     Position=new PVector(x,y);
   }
   public void Shoot(){
-    bullets.add(new Bullet(this.Position,true));
+    bullets.add(new Bullet(this.Position,pWidth/2,5,true));
   }
   public void Move(boolean right){
     

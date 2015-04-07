@@ -34,7 +34,7 @@ class Interval{
   }
   
   public float SetSpeed(float percentual){
-    println("max= "+max+" min= "+min+ "value= "+value);
+    //println("max= "+max+" min= "+min+ "value= "+value);
     return max>=percentual && percentual>min?value:-1;
   }
 }

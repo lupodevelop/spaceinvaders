@@ -5,6 +5,8 @@ class EnemyArmy extends ArrayList<Enemy>{
   boolean direction;
   float actualSpeed;
   float startSpeed=.005;
+  float shootTime=2500;
+  float lastMillis;
   public Speed speed;
   public EnemyArmy(){
     direction = true;  // go to right
@@ -27,6 +29,10 @@ class EnemyArmy extends ArrayList<Enemy>{
     direction=!direction;
   }
   public void Draw(){
+    if(millis()-lastMillis>shootTime){
+      this.Shooters().RandomShoot();
+      lastMillis=millis();
+    }
     if(this.size()==0)
       println("you won");
     else
@@ -34,7 +40,7 @@ class EnemyArmy extends ArrayList<Enemy>{
         println("you lose");    
     for(Enemy e : this){
       Move();
-      e.Draw(unitWidth,unitHeight);
+      e.Draw();
     }
   }
   void InitializeArmy(int x,int y){  // quante per riga e colonna
@@ -45,13 +51,15 @@ class EnemyArmy extends ArrayList<Enemy>{
     y=maxY>y?y:maxY;
     for(int i = 0; i< y;i++){
       for(int k=0;k<x;k++){
-        this.add(new Enemy(new PVector(unitWidth*k,unitHeight*i),i==y-1));  // canShoot = true per quelli nella fila più bassa
+        this.add(new Enemy(new PVector(unitWidth*k,unitHeight*i),i==y-1,unitWidth,unitHeight));  // canShoot = true per quelli nella fila più bassa
       }
     }
     startArmyCount=this.size();
   }
   public void Destroy(Enemy e) {
     this.remove(e);
+    if(e.CanShoot)
+      AssignShooter(e.Position);
     explosion.rewind();    
     explosion.play();
     e.Explosion();
@@ -59,31 +67,73 @@ class EnemyArmy extends ArrayList<Enemy>{
     println("speed= "+actualSpeed);
   } // with graphical animation 
   
+  public void AssignShooter(PVector deadShooterPos){
+    if(deadShooterPos.y>=unitHeight){
+      PVector next = new PVector(deadShooterPos.x,deadShooterPos.y-unitHeight);
+      Enemy e=Find(next);
+      if(e!=null){
+        e.CanShoot=true;
+        println("OMG funzia");
+      }
+      else
+          AssignShooter(next);
+    }
+  }
+  
+  public void RandomShoot(){  // runs(?)
+    if(this.size()>0)
+      this.get((int)random(this.size()-1)).Shoot();
+  }
+  EnemyArmy Shooters(){
+    EnemyArmy shooters = new EnemyArmy();
+    for(Enemy e : this){
+      if(e.CanShoot)
+        shooters.add(e);
+    }
+    return shooters;
+  }
+  public Enemy Find(PVector position){
+    Enemy temp= new Enemy(position,false,0,0);
+    for(Enemy e : this){
+      if(e.Equals(temp))
+        return e;
+    }
+    return null;
+  }
+  
   float Percentual(){
     return this.size()==1?-1:(this.size()*100)/startArmyCount;  
   }
 }
 
+
 class Enemy{
-  boolean CanShoot;
-  PVector Position;
+  int UnitWidth;
+  int UnitHeight;
+  public boolean CanShoot;
+  public PVector Position;
   
-  public Enemy(PVector position,boolean canShoot){
+  public Enemy(PVector position,boolean canShoot,int unitWidth,int unitHeight){
     CanShoot=canShoot;
     Position=position;
+    UnitWidth=unitWidth;
+    UnitHeight=unitHeight;
   }
-  public void Draw(int unitWidth,int unitHeight){
-    image(enemyImg,Position.x,Position.y,unitWidth,unitHeight);
+  public void Draw(){
+    image(enemyImg,Position.x,Position.y,UnitWidth,UnitHeight);
   }
   
   public void Shoot(){
-    /*
-   if(canShoot)
-     bullets.add(new Bullet(this.Position,false));  // non ancora usabile
-     */
+    
+   if(CanShoot)
+     bullets.add(new Bullet(this.Position,UnitWidth/2,UnitHeight,false));  // non ancora usabile
   }
   
   public void Explosion(){
     image(explosionImg,Position.x,Position.y);
+  }
+  
+  public boolean Equals(Enemy e){
+    return e.Position.x==this.Position.x&&e.Position.y==this.Position.y;
   }
 }
