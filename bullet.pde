@@ -36,7 +36,7 @@ class Bullet{
   }
   
   void Move(){
-     PVector temp=null;
+     Enemy temp=null;
      if(Direction){
        temp=CollisionWithEnemy();
       if(temp!=null){
@@ -54,17 +54,17 @@ class Bullet{
      this.Position.y-=speed; 
   }
 
-   public PVector CollisionWithEnemy(){
-    PVector temp=new PVector(-100,-100);
-    ArrayList<PVector> PossibleVictim= new ArrayList<PVector>();
-    for(PVector p : enemyArmy){
-      if(Collision(p,enemyArmy.unitWidth,enemyArmy.unitHeight))
-        PossibleVictim.add(p);
+   public Enemy CollisionWithEnemy(){
+    Enemy temp=new Enemy(new PVector(-100,-100),false);
+    EnemyArmy PossibleVictim= new EnemyArmy();
+    for(Enemy e : enemyArmy){
+      if(Collision(e.Position,enemyArmy.unitWidth,enemyArmy.unitHeight))
+        PossibleVictim.add(e);
     }
-    for(PVector p : PossibleVictim){
-      temp = (p.y>temp.y?p:temp);
+    for(Enemy e : PossibleVictim){
+      temp = (e.Position.y>temp.Position.y?e:temp);
     }
-    return temp.x==-100 && temp.y==-100 ? null : temp;
+    return temp.Position.x==-100 && temp.Position.y==-100 ? null : temp;
   }
   
     boolean Collision(PVector p,float pWidth,float pHeight){

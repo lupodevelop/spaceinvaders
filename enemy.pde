@@ -1,4 +1,4 @@
-class EnemyArmy extends ArrayList<PVector>{
+class EnemyArmy extends ArrayList<Enemy>{
   public static final int unitWidth=50;
   public static final int unitHeight=50;
   int startArmyCount;
@@ -13,16 +13,16 @@ class EnemyArmy extends ArrayList<PVector>{
   }
   
   public void Move(){
-    for(PVector pos : this){
-      if((pos.x>=width-unitWidth && direction) || (pos.x<= unitWidth && !direction))  
+    for(Enemy e : this){
+      if((e.Position.x>=width-unitWidth && direction) || (e.Position.x<= unitWidth && !direction))  
          GoDown();
       else
-          pos.x+=(direction?actualSpeed:-actualSpeed); 
+          e.Position.x+=(direction?actualSpeed:-actualSpeed); 
     }
   }
   void GoDown(){
-    for(PVector pos : this)
-      pos.y+=unitHeight;
+    for(Enemy e : this)
+      e.Position.y+=unitHeight;
     
     direction=!direction;
   }
@@ -30,11 +30,11 @@ class EnemyArmy extends ArrayList<PVector>{
     if(this.size()==0)
       println("you won");
     else
-      if(this.get(this.size()-1).y>=height-10)
+      if(this.get(this.size()-1).Position.y>=height-10)
         println("you lose");    
-    for(PVector pos : this){
+    for(Enemy e : this){
       Move();
-      image(enemyImg,pos.x,pos.y,unitWidth,unitHeight);
+      e.Draw(unitWidth,unitHeight);
     }
   }
   void InitializeArmy(int x,int y){  // quante per riga e colonna
@@ -45,21 +45,45 @@ class EnemyArmy extends ArrayList<PVector>{
     y=maxY>y?y:maxY;
     for(int i = 0; i< y;i++){
       for(int k=0;k<x;k++){
-        this.add(new PVector(unitWidth*k,unitHeight*i));
+        this.add(new Enemy(new PVector(unitWidth*k,unitHeight*i),i==y-1));  // canShoot = true per quelli nella fila più bassa
       }
     }
     startArmyCount=this.size();
   }
-  public void Destroy(PVector p) {
-    this.remove(p);
+  public void Destroy(Enemy e) {
+    this.remove(e);
     explosion.rewind();    
     explosion.play();
-    image(explosionImg,p.x,p.y);
+    e.Explosion();
     actualSpeed=speed.SetSpeed(Percentual());
     println("speed= "+actualSpeed);
   } // with graphical animation 
   
   float Percentual(){
     return this.size()==1?-1:(this.size()*100)/startArmyCount;  
+  }
+}
+
+class Enemy{
+  boolean CanShoot;
+  PVector Position;
+  
+  public Enemy(PVector position,boolean canShoot){
+    CanShoot=canShoot;
+    Position=position;
+  }
+  public void Draw(int unitWidth,int unitHeight){
+    image(enemyImg,Position.x,Position.y,unitWidth,unitHeight);
+  }
+  
+  public void Shoot(){
+    /*
+   if(canShoot)
+     bullets.add(new Bullet(this.Position,false));  // non ancora usabile
+     */
+  }
+  
+  public void Explosion(){
+    image(explosionImg,Position.x,Position.y);
   }
 }
