@@ -1,3 +1,15 @@
+class Bullets extends ArrayList<Bullet>{
+  public Bullets(){}
+  public void Draw(){
+  for(Iterator<Bullet> it = bullets.iterator();it.hasNext();){
+      Bullet b = it.next();
+      if(!b.CanDraw)
+        it.remove();
+      else
+          b.Draw();
+  }
+  }
+}
 class Bullet{
   public static final int widthB=10;
   public static final int heightB=10;

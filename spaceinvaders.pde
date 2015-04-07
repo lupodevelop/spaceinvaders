@@ -6,6 +6,7 @@ PImage explosionImg;
 PImage playerImg;
 PImage enemyImg;
 Player player;
+Bullets bullets;
 EnemyArmy enemyArmy;
 AudioPlayer shootPlayer, explosion;
 Minim minim;
@@ -17,6 +18,7 @@ void setup() {
    explosion= minim.loadFile("data/sound/explosion.wav");  
    shootPlayer=minim.loadFile("data/sound/shoot.wav");
    enemyArmy = new EnemyArmy();
+   bullets=new Bullets();
    enemyArmy.InitializeArmy(10,10);  // y=7 perché sfora il limite 
    playerImg= loadImage("data/img/player.jpg");
    explosionImg=loadImage("data/img/Explosion.png");
@@ -28,6 +30,7 @@ void draw() {
   background(0);
   player.Draw();
   enemyArmy.Draw();
+  bullets.Draw();
 }
 
 void keyPressed(){
