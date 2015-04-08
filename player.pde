@@ -1,5 +1,6 @@
 class Player{
   private static final float speed=40;
+  public int lifes=3;  // partiamo con 3
   public float pWidth=50;
   public float pHeight=50;
   public PVector Position;
@@ -16,7 +17,17 @@ class Player{
   }
   public void Draw(){
     image(playerImg,Position.x,Position.y,pWidth,pHeight);
+    text("you have "+lifes+" lifes",width-100,height-20);
+  }
+  
+  public void Die(){
+    image(explosionImg,Position.x,Position.y,pWidth,pHeight);
+    lifes--;
+    if(lifes==0){
+      text("you loose",width/2,height/2);
+      finished=true;
     }
+  }
 }
 
 
