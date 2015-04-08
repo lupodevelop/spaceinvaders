@@ -33,10 +33,11 @@ class EnemyArmy extends ArrayList<Enemy>{
       this.Shooters().RandomShoot();
       lastMillis=millis();
     }
-    if(this.get(this.size()-1).Position.y>=player.Position.y){
-       text("earth is invaded!",width/2,height/2);
-       finished=true;   
-    }
+    if(this.size()==0)
+      println("you won");
+    else
+      if(this.get(this.size()-1).Position.y>=height-10)
+        println("you lose");    
     for(Enemy e : this){
       Move();
       e.Draw();
@@ -57,16 +58,13 @@ class EnemyArmy extends ArrayList<Enemy>{
   }
   public void Destroy(Enemy e) {
     this.remove(e);
-    if(this.size()==0){
-      text("you win",width/2,height);
-      finished =true;
-    }
     if(e.CanShoot)
       AssignShooter(e.Position);
     explosion.rewind();    
     explosion.play();
     e.Explosion();
     actualSpeed=speed.SetSpeed(Percentual());
+    println("speed= "+actualSpeed);
   } // with graphical animation 
   
   public void AssignShooter(PVector deadShooterPos){
@@ -132,7 +130,7 @@ class Enemy{
   }
   
   public void Explosion(){
-    image(explosionImg,Position.x,Position.y,UnitWidth,UnitHeight);
+    image(explosionImg,Position.x,Position.y);
   }
   
   public boolean Equals(Enemy e){

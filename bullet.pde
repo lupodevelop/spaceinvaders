@@ -46,7 +46,6 @@ class Bullet{
       else{
         if(Collision(player.Position,player.pWidth,player.pHeight)&&!Direction){
           println("giocatore colpito");
-          player.Die();
           CanDraw=false;
         }  
       }
