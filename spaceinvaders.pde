@@ -10,9 +10,10 @@ Bullets bullets;
 EnemyArmy enemyArmy;
 AudioPlayer shootPlayer, explosion;
 Minim minim;
-// does not have image 
+boolean finished;
 void setup() {
    size(800,768);
+   finished=false;
    frameRate(120);
    minim= new Minim(this);
    explosion= minim.loadFile("data/sound/explosion.wav");  
@@ -27,10 +28,12 @@ void setup() {
 }
 
 void draw() {
+  if(!finished){
   background(0);
   player.Draw();
   enemyArmy.Draw();
   bullets.Draw();
+  }
 }
 
 void keyPressed(){
@@ -49,7 +52,11 @@ void keyPressed(){
       t=millis();
     }
   }
+  if(key=='r' && finished){
+    setup();
+  }
 }
+
 
 
 
