@@ -10,6 +10,7 @@ Bullets bullets;
 EnemyArmy enemyArmy;
 AudioPlayer shootPlayer, explosion;
 Minim minim;
+
 // does not have image 
 void setup() {
    size(800,768);
