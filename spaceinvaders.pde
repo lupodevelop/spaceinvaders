@@ -13,7 +13,7 @@ boolean finished;
 void setup() {
    size(800,768);
    finished=false;
-   frameRate(120);
+   frameRate(60);
    minim= new Minim(this);
    explosion= minim.loadFile("data/sound/explosion.wav");  
    shootPlayer=minim.loadFile("data/sound/shoot.wav");
@@ -49,7 +49,9 @@ void keyPressed(){
     shootPlayer.play();
   }
   if(key=='r' && finished){
+    float f = player.HasWon?player.Points:0;
     setup();
+    player.Points=f;
   }
 }
 

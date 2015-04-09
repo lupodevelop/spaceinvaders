@@ -57,9 +57,11 @@ class EnemyArmy extends ArrayList<Enemy>{
   }
   public void Destroy(Enemy e) {
     this.remove(e);
+    player.Points+=actualSpeed/startSpeed;
     if(this.size()==0){
       text("you win",width/2,height);
       finished =true;
+      player.HasWon=true;
     }
     if(e.CanShoot)
       AssignShooter(e.Position);
