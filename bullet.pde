@@ -9,6 +9,14 @@ class Bullets extends ArrayList<Bullet>{
           b.Draw();
   }
   }
+  
+  public boolean PlayerIsShooting(){
+    for(Bullet b : this){
+      if(b.Direction)
+        return true;
+    }
+    return false;
+  }
 }
 class Bullet{
   public static final int widthB=10;

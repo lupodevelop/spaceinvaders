@@ -1,7 +1,6 @@
 import java.util.Iterator;
 import ddf.minim.*;
-int timeToShoot=200;
-int t;
+
 PImage explosionImg;
 PImage playerImg;
 PImage enemyImg;
@@ -44,13 +43,10 @@ void keyPressed(){
     if(keyCode==RIGHT)
       player.Move(true);
   }
-  if(key==' '){
-    if(millis()-t>timeToShoot){
-      player.Shoot();
-      shootPlayer.rewind();
-      shootPlayer.play();
-      t=millis();
-    }
+  if(key==' '  && !bullets.PlayerIsShooting()){
+    player.Shoot();
+    shootPlayer.rewind();
+    shootPlayer.play();
   }
   if(key=='r' && finished){
     setup();
