@@ -9,6 +9,7 @@ Bullets bullets;
 EnemyArmy enemyArmy;
 AudioPlayer shootPlayer, explosion;
 Minim minim;
+String finishMessage ="";
 boolean finished;
 void setup() {
    size(800,768);
@@ -31,7 +32,10 @@ void draw() {
   background(0);
   player.Draw();
   enemyArmy.Draw();
-  bullets.Draw();
+  bullets.Draw(); 
+  }
+  else{
+    Message(finishMessage);
   }
 }
 
@@ -55,6 +59,11 @@ void keyPressed(){
   }
 }
 
+void Message(String msg){
+  
+   background(0); 
+   text(msg,width/2,height/2);
+}
 
 
 

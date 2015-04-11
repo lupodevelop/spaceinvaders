@@ -27,8 +27,9 @@ class Player{
     image(explosionImg,Position.x,Position.y,pWidth,pHeight);
     lifes--;
     if(lifes==0){
-      text("you loose",width/2,height/2);
+      finishMessage="you lose";
       finished=true;
+      draw();
     }
   }
 }

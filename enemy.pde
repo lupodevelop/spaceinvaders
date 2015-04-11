@@ -34,8 +34,9 @@ class EnemyArmy extends ArrayList<Enemy>{
       lastMillis=millis();
     }
     if(this.get(this.size()-1).Position.y>=player.Position.y){
-       text("earth is invaded!",width/2,height/2);
-       finished=true;   
+       finishMessage="earth is invaded!";
+       finished=true;
+       draw();
     }
     for(Enemy e : this){
       Move();
@@ -45,7 +46,6 @@ class EnemyArmy extends ArrayList<Enemy>{
   void InitializeArmy(int x,int y){  // quante per riga e colonna
     int maxX=width/unitWidth;
     int maxY=(height/unitHeight)/2;
-    println(maxX + " " + maxY);
     x=maxX>x?x:maxX;
     y=maxY>y?y:maxY;
     for(int i = 0; i< y;i++){
@@ -59,26 +59,27 @@ class EnemyArmy extends ArrayList<Enemy>{
     this.remove(e);
     player.Points+=actualSpeed/startSpeed;
     if(this.size()==0){
-      text("you win",width/2,height);
-      finished =true;
+      finishMessage="you win";
+      finished=true;
       player.HasWon=true;
+      draw();
     }
+    
     if(e.CanShoot)
       AssignShooter(e.Position);
     explosion.rewind();    
     explosion.play();
     e.Explosion();
     actualSpeed=speed.SetSpeed(Percentual());
-  } // with graphical animation 
+  } 
   
   public void AssignShooter(PVector deadShooterPos){
     if(deadShooterPos.y>=unitHeight){
       PVector next = new PVector(deadShooterPos.x,deadShooterPos.y-unitHeight);
       Enemy e=Find(next);
-      if(e!=null){
+      if(e!=null)
         e.CanShoot=true;
-        println("OMG funzia");
-      }
+      
       else
           AssignShooter(next);
     }
