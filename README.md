@@ -11,3 +11,6 @@ Daniele Scaratti @lupodevelop
 
 Alberto Bombardelli @caramellaio
 
+
+GNU GPL v.3
+
